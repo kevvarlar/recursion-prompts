@@ -7,33 +7,82 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 let factorial = function(n) {
+  if (n < 0) {
+    return null
+  }
+  if (n === 0) {
+    return 1;
+  }
+  return n * factorial(n-1);
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 let sum = function(array) {
+  if (array.length === 0) {
+    return 0;
+  }
+  return array[0] + sum(array.slice(1));
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 let arraySum = function(array) {
+  if (array.length === 0) {
+    return 0;
+  }
+  if (typeof array[0] === 'number') {
+    return array[0] + arraySum(array.slice(1));
+  } else {
+    return arraySum(array[0]) + arraySum(array.slice(1));
+  }
 };
 
 // 4. Check if a number is even.
 // isEven(2) // true
 // isEven(9) // false
 let isEven = function(n) {
+  if(n === 0) {
+    return true;
+  }
+  if(n === 1 || n === -1) {
+    return false;
+  }
+  if(n > 1) {
+    return isEven(n - 2);
+  }
+  if(n < -1) {
+    return isEven(n + 2);
+  }
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 let sumBelow = function(n) {
+  if (n === 0) {
+    return 0;
+  }
+  if (n > 0) {
+    return (n - 1) + sumBelow(n - 1)
+  }
+  if (n < 0) {
+    return (n + 1) + sumBelow(n + 1)
+  }
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 let range = function(x, y) {
+  if(Math.abs(x - y) === 1 || x - y === 0) {
+    return [];
+  }
+  if(x < y) {
+    return [x + 1].concat(range(x + 1, y));
+  }
+  if(x > y) {
+    return [x - 1].concat(range(x - 1, y));
+  }
 };
 
 // 7. Compute the exponent of a number.
@@ -42,6 +91,21 @@ let range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 let exponent = function(base, exp) {
+  if (exp === 0) {
+    return 1;
+  }
+  if (exp === 1) {
+    return base;
+  }
+  if(exp === -1) {
+    return 1 / base
+  }
+  if(exp > 1) {
+    return base * exponent(base, exp - 1);
+  }
+  if(exp < -1) {
+    return 1 / (base * exponent(base, (exp * -1) - 1))
+  }
 };
 
 // 8. Determine if a number is a power of two.
@@ -49,11 +113,25 @@ let exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 let powerOfTwo = function(n) {
+  if (n === 1 || n === 2) {
+    return true;
+  }
+  if (n > 1 && n < 2) {
+    return false;
+  }
+  if (n < 1) {
+    return false;
+  }
+  return powerOfTwo(n / 2);
 };
 
 // 9. Write a function that reverses a string.
-// reverse("hello"); // olleh 
+// reverse("hello"); // olleh
 let reverse = function(string) {
+  if(string.length === 0) {
+    return "";
+  }
+  return string[string.length -1] + reverse(string.substring(0, string.length-1));
 };
 
 // 10. Write a function that determines if a string is a palindrome.
@@ -61,6 +139,16 @@ let reverse = function(string) {
 // palindrome("rotor") // true
 // palindrome("wow") // true
 let palindrome = function(string) {
+  if (string.length === 0 || string.length === 1) {
+    return true;
+  }
+  string = string.replaceAll(' ', '');
+  string = string.toLowerCase();
+  if(string[0] === string[string.length-1]) {
+    return palindrome(string.substring(1, string.length - 1))
+  } else {
+    return false;
+  }
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -147,6 +235,7 @@ let countValuesInObj = function(obj, value) {
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 let replaceKeysInObj = function(obj, oldKey, newKey) {
+
 };
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
